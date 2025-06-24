@@ -27,14 +27,14 @@ def actorEdit(request, actorid):
     actor = Actores.objects.get(actorid=actorid)
     return render(request,'actoresEdit.html',{'actor':actor})
 
-def actorUpdate(request,actorid):
+def actorUpdate(request, actorid):
     actor = Actores.objects.get(actorid=actorid)
-    form = ActoresForm(request.POST,instance=actor)
-    print(form)
-    print(form.errors)
+    form = ActoresForm(request.POST or None, request.FILES or None, instance=actor)
+    
     if form.is_valid():
         form.save()
         return redirect("/showactor")
+        
     return render(request,'actorEdit.html',{'actor':actor})
 
 def actorDestroy(request,actorid):
