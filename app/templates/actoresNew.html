@@ -1,0 +1,80 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %}Nuevo actor{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid p-4 bg-light text-dark">
+    <div class="card shadow-sm border-0 rounded-lg mx-auto" style="max-width: 700px;">
+        <div class="card-body p-4">
+            <div class="row justify-content-center text-center mb-4">
+                <div class="col-12">
+                    <h2 class="display-5 text-primary">Registrar Nuevo actor</h2>
+                    <p class="lead text-muted">Ingrese los datos del nuevo actor.</p>
+                </div>
+            </div>
+            <hr class="my-4">
+             {# enctype="multipart/form-data"  para permitir subida de archivos. #}
+            <form method="POST" enctype="multipart/form-data" class="post-form">
+                {% csrf_token %}
+                
+                {# Campos del formulario  #}
+                <div class="row g-3 mb-4">
+                    {# Campo nombre #}
+                    <div class="col-md-6">
+                        <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="{{ form.nombre.id_for_label }}" 
+                               name="{{ form.nombre.name }}" required>
+                    </div>
+                    {# Campo fechanacimiento #}
+                    <div class="col-md-6">
+                        <label for="{{ form.fechanacimiento.id_for_label }}" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="{{ form.fechanacimiento.id_for_label }}" 
+                               name="{{ form.fechanacimiento.name }}" required>
+                    </div>
+                    {# Campo biografia #}
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <label for="{{ form.biografia.id_for_label }}" class="form-label">Biografía</label>
+                        <textarea class="form-control" id="{{ form.biografia.id_for_label }}" 
+                                  name="{{ form.biografia.name }}" rows="5" required></textarea>
+                        <small class="form-text text-muted">Describa la trayectoria del actor (mínimo 100 caracteres)</small>
+                    </div>
+                </div>
+                </div>
+                {# Campo para la imagen con vista previa #}
+                <div class="mb-4 text-center">
+                    <div class="image-preview-container mb-3">
+                        <img id="imagePreview" src="{% static 'images/default-avatar.png' %}" 
+                             class="img-thumbnail rounded-circle mx-auto d-block" 
+                             style="width: 150px; height: 150px; object-fit: cover;"
+                             alt="Vista previa de la imagen">
+                    </div>
+                    <label for="{{ form.imagen.id_for_label }}" class="form-label">Foto del actor</label>
+                    <input type="file" class="form-control" id="{{ form.imagen.id_for_label }}" 
+                           name="{{ form.imagen.name }}" accept="image/*">
+                    <div class="form-text">Formatos aceptados: JPG, PNG, GIF. Tamaño máximo: 2MB.</div>
+                </div>
+                {# Botones de acción #}
+                <div class="row justify-content-center mt-4">
+                    <div class="col-auto d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                            <i class="bi bi-save me-2"></i> Guardar
+                        </button>
+                        <a href="{% url 'showactor' %}" class="btn btn-secondary btn-lg shadow-sm" role="button">
+                            <i class="bi bi-x-circle me-2"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/actores.js' %}"></script>
+{% endblock %}

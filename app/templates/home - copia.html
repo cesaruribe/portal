@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends "menu.html" %}
+{% load static %}
+<html lang="es">
+{% block content %}
+<head>
+    <title>Inicio</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div background ="{% static 'images/portal.jpg' %}" style="background-image: url('/static/images/portal.jpg');
+            background-repeat: no-repeat; 
+            background-position: center center;width: 80%;height: 60vh;">
+        </div>
+    </div>
+</body>
+{% endblock %}
+</html>

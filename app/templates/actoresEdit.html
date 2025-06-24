@@ -1,0 +1,105 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %}Editar Actor{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid p-4 bg-light text-dark"> {# Contenedor principal con padding y fondo #}
+    <div class="card shadow-sm border-0 rounded-lg"> {# Una tarjeta para meter todo el contenido del formulario #}
+        <div class="card-body">
+            <div class="row justify-content-center text-center mb-4"> {# Título centrado #}
+                <div class="col-12">
+                    <h1 class="display-4 text-primary">EDITAR ACTOR</h1> {# Título más grande y con color #}
+                    <p class="lead text-muted">Actualiza la información del actor seleccionado.</p> {# Subtítulo descriptivo #}
+                </div>
+            </div>
+            <hr class="my-4"> {# Separador #}
+
+            <div class="row justify-content-center"> {# Fila para centrar el formulario #}
+                <div class="col-12 col-md-10 col-lg-8"> {# Ajusta el ancho del formulario en diferentes pantallas #}
+                    <form method="POST" action="{% url 'updateactor' actor.actorid %}" class="p-4 border rounded-lg shadow-sm bg-white" enctype="multipart/form-data"> {# Añadido enctype para manejar archivos #}
+                        {% csrf_token %}
+
+                        {# CAMPO NUMERO 1 DE LA TABLA #}
+                        <div class="form-group row mb-3"> {# mb-3 para margen inferior entre campos #}
+                            <label for="id_actorid" class="col-sm-4 col-form-label text-md-end">Número de Identificación:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                       name="actorid" id="id_actorid" required maxlength="20"
+                                       value="{{ actor.actorid }}" {% if not actor.actorid %}placeholder="Ingrese la identificación"{% endif %} 
+                                       readonly/>
+                            </div>
+                        </div>
+                        {# CAMPO NUMERO 2 DE LA TABLA #}
+                        <div class="form-group row mb-3">
+                            <label for="id_nombre" class="col-sm-4 col-form-label text-md-end">Nombre:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                       name="nombre" id="id_nombre" required maxlength="50"
+                                       value="{{ actor.nombre }}" {% if not actor.nombre %}placeholder="Ingrese el nombre"{% endif %} />
+                            </div>
+                        </div>
+                        {# CAMPO NUMERO 3 DE LA TABLA #}
+                        <div class="form-group row mb-3">
+                            <label for="id_fechanacimiento" class="col-sm-4 col-form-label text-md-end">Fecha Nacimiento:</label>
+                            <div class="col-sm-6">
+                                <input type="date" id="fechanacimiento" name="fechanacimiento" class="form-control" required
+                                       value="{{ actor.fechanacimiento|date:'Y-m-d' }}" /> {# Formatear fecha para input type="date" #}
+                            </div>
+                        </div>
+                        {# CAMPO NUMERO 4 DE LA TABLA #}
+                        <div class="form-group row mb-3">
+                            <label for="id_biografia" class="col-sm-4 col-form-label text-md-end">Biografia:</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control"
+                                    name="biografia"
+                                    id="id_biografia"
+                                    cols="30"
+                                    rows="10"
+                                    required
+                                >{{ actor.biografia }}</textarea>
+                            </div>
+                        </div>
+                        
+                        {# CAMPO DE IMAGEN #}
+                        <div class="form-group row mb-4 text-center">
+                            <div class="col-12">
+                                <div class="image-preview-container mb-3">
+                                    <img id="imagePreview" 
+                                         src="{% if actor.imagen %}{{ actor.imagen.url }}{% else %}{% static 'imges/default-avatar.png' %}{% endif %}" 
+                                         class="img-thumbnail rounded-circle mx-auto d-block" 
+                                         style="width: 150px; height: 150px; object-fit: cover;"
+                                         alt="Foto del actor">
+                                </div>
+                                <label for="id_imagen" class="form-label">Cambiar foto</label>
+                                <input type="file" class="form-control" id="id_imagen" 
+                                       name="imagen" accept="image/*">
+                                <div class="form-text">Formatos aceptados: JPG, PNG, GIF. Tamaño máximo: 2MB.</div>
+                            </div>
+                        </div>
+
+                        {# Botones de acción #}
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-success btn-lg shadow-sm me-2">
+                                    <i class="bi bi-arrow-clockwise me-2"></i> Actualizar
+                                </button>
+                                <a href="{% url 'showactor' %}" class="btn btn-danger btn-lg shadow-sm" role="button">
+                                    <i class="bi bi-x-circle me-2"></i> Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div> {# Fin de col #}
+            </div> {# Fin de row justify-content-center #}
+
+        </div> {# Fin de card-body #}
+    </div> {# Fin de card #}
+</div> {# Fin de container-fluid #}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/actores.js' %}"></script>
+{% endblock %}
